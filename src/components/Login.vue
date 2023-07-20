@@ -53,10 +53,10 @@ export default {
             this.$refs.loginFormRef.validate(async valid => {
                 if(!valid) alert('请求有问题')
                 await this.$api.login.login(this.loginForm).then((resp)=>{
-                    if(resp.data.meta.status !== 200) return this.$message.error('登录失败')
+                    if(resp.meta.status !== 200) return this.$message.error('登录失败')
                     // 登录成功后做的事情
                     this.$message.success('登录成功')
-                    window.sessionStorage.setItem('token',resp.data.data.token)
+                    window.sessionStorage.setItem('token',resp.data.token)
                     this.$router.push('/home')
                 })
             })

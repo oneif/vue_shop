@@ -1,6 +1,12 @@
 /* 全局样式表 */
-html,body,#app{
+html,
+body,
+#app {
     height: 100%;
     padding: 0px;
     margin: 0px;
+}
+
+.el-breadcrumb {
+    margin-bottom: 15px;
 }
