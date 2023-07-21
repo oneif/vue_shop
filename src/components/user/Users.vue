@@ -1,11 +1,7 @@
 <template>
     <div>
         <!-- 面包屑导航 -->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-            <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-        </el-breadcrumb>
+        <BreadCrumb />
 
         <!-- 卡片视图 -->
         <el-card>
@@ -32,12 +28,12 @@
                         <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="操作" width="250px">
                     <template slot-scope="scope">
                         <el-button type="primary" icon="el-icon-edit" @click="showEditDialog(scope.row.id)"></el-button>
                         <el-button type="danger" icon="el-icon-delete" @click="deleteUser(scope.row.id)"></el-button>
                         <el-tooltip class="item" effect="dark" content="分配角色" placement="right" :enterable="false">
-                            <el-button type="warning" icon="el-icon-setting"></el-button>
+                            <el-button type="warning" icon="el-icon-setting" @click="setRole(scope.row)"></el-button>
                         </el-tooltip>
                     </template>
                 </el-table-column>
@@ -90,12 +86,31 @@
                 <el-button type="primary" @click="editUserInfo">确 定</el-button>
             </span>
         </el-dialog>
+
+        <!-- 分配角色对话框 -->
+        <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="30%" @close="setRoleDialogClose">
+            <div>
+                <p>当前用户：{{ userInfo.username }}</p>
+                <p>当前用户的角色：{{ userInfo.role_name }}</p>
+                <p>分配新角色： 
+                    <el-select v-model="selectedRoleId" placeholder="请选择">
+                        <el-option v-for="item in roleList" :key="item.id" :label="item.roleName" :value="item.id">
+                        </el-option>
+                    </el-select>
+                </p>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
-
+import BreadCrumb from '../BreadCrumb'
 export default {
+    components: { BreadCrumb },
     name: 'Users',
     data() {
         const checkMobile = (rule, value, callback) => {
@@ -112,9 +127,9 @@ export default {
             },
             userList: [],
             total: 0,
+
             // 控制添加用户对话框的显示与隐藏
             addDialogVisible: false,
-
             // 添加用户的表单数据
             addUserForm: {
                 username: '',
@@ -142,7 +157,6 @@ export default {
 
             // 控制编辑用户对话框的显示与隐藏
             editDialogVisible: false,
-
             // 编辑用户的表单数据
             editUserForm: {},
             // 编辑用户表单验证
@@ -154,6 +168,15 @@ export default {
                     { required: true, validator: checkMobile, trigger: 'blur' }
                 ],
             },
+
+            // 控制分配角色对话框的显示与隐藏
+            setRoleDialogVisible: false,
+            // 需要被分配角色的用户信息 即被点击‘分配角色’的那个item
+            userInfo: {},
+            // 可以被分配的角色
+            roleList: [],
+            // 已选中的角色id值 用于分配新角色
+            selectedRoleId:'',
         }
     },
     methods: {
@@ -174,6 +197,7 @@ export default {
             this.queryInfo.pagesize = newSize
             this.getUserLists()
         },
+        // 更新用户状态
         async userStateChanged(row) {
             await this.$api.users.changeUserState(row.id, row.mg_state).then(resp => {
                 this.$message.success('更新用户状态成功')
@@ -214,7 +238,7 @@ export default {
                     email: this.editUserForm.email,
                     mobile: this.editUserForm.mobile
                 }).then(resp => {
-                    if (resp.meta.status !== 200) this.$message.error('更新用户失败')
+                    if (resp.meta.status !== 200) this.$message.error(resp.meta.msg)
                     this.$message.success('更新用户信息成功')
                     this.editDialogVisible = false
                     this.getUserLists()
@@ -229,14 +253,38 @@ export default {
                 cancelButtonText: '取消',
                 type: 'error'
             }).then(() => {
-                this.$api.users.deleteUserById(id).then((resp)=>{
-                    if (resp.meta.status !== 201) this.$message.error('删除用户失败')
+                this.$api.users.deleteUserById(id).then((resp) => {
+                    if (resp.meta.status !== 201) this.$message.error(resp.meta.msg)
                     this.getUserLists()
                 })
                 this.$message.success('删除用户成功');
             }).catch(() => {
                 this.$message.info('已取消删除');
             });
+        },
+
+        // 展示分配角色的对话框
+        async setRole(userInfo) {
+            this.userInfo = userInfo
+            await this.$api.roles.getRolesList().then(resp => {
+                this.roleList = resp.data
+            })
+            this.setRoleDialogVisible = true
+        },
+        // 点击按钮 分配新角色
+        async saveRoleInfo(){
+            if(!this.selectedRoleId) return this.$message.error('请选择要分配的角色')
+            await this.$api.users.assignRoleById(this.userInfo.id,{rid:this.selectedRoleId}).then(resp => {
+                if(resp.meta.status !== 200) return this.$message.error(resp.meta.msg)
+                this.$message.success(resp.meta.msg)
+                this.getUserLists()
+            })
+            this.setRoleDialogVisible = false
+        },
+        // 分配角色对话框关闭后重置数据
+        setRoleDialogClose(){
+            this.selectedRoleId = ''
+            this.userInfo = ''
         }
     },
     created() {

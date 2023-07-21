@@ -38,4 +38,11 @@ export function deleteUserById(id){
         method:'DELETE',
         url:`/users/${id}`,
     })
+} 
+export function assignRoleById(id,params){
+    return request({
+        method:'PUT',
+        url:`/users/${id}/role`,
+        data:params //data是作为请求体被发送的数据
+    })
 }

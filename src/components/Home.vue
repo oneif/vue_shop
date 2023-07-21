@@ -70,7 +70,7 @@ export default {
         // 获取所有的菜单
         async getMenusList() {
             await this.$api.menusPermission.getMenusList().then(resp => {
-                if (resp.meta.status !== 200) return this.$message.error(res.meta.msg)
+                if (resp.meta.status !== 200) return this.$message.error(resp.meta.msg)
                 this.menusList = resp.data
             })
         },
