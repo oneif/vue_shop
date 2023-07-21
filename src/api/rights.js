@@ -6,3 +6,9 @@ export function getRightsList(){
         url:'/rights/list'
     })
 }
+export function getRightsTree(){
+    return request({
+        method:'GET',
+        url:'/rights/tree'
+    })
+}
