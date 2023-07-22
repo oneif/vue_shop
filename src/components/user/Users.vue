@@ -182,7 +182,7 @@ export default {
     methods: {
         async getUserLists() {
             await this.$api.users.getUserLists(this.queryInfo).then(resp => {
-                if (resp.meta.status !== 200) return this.$message.error('获取用户信息失败')
+                if (resp.meta.status !== 200) return this.$message.error(resp.meta.msg)
                 this.userList = resp.data.users
                 this.total = resp.data.total
             })
