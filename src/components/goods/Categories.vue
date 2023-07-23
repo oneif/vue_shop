@@ -20,6 +20,7 @@
             <!-- 商品分类区域 -->
             <el-table :data="categoriesList" style="width: 100%;margin-top: 20px;" row-key="cat_id" border fit lazy
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+                <el-table-column type="expand"></el-table-column>
                 <el-table-column type="index" label="#" width="60px">
                 </el-table-column>
                 <el-table-column prop="cat_name" label="分类名称">
@@ -106,13 +107,11 @@ export default {
                 console.log(resp);
                 this.categoriesList = resp.data
                 this.total = resp.data.length
-                console.log(this.categoriesList);
             })
         },
         // 改变每页显示多少条
         handleSizeChange(newSize) {
             this.queryInfo.pagesize = newSize
-            console.log(this.queryInfo);
             this.getCategories()
         },
         // 去往指定页数
