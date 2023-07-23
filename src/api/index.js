@@ -4,6 +4,7 @@ import * as users from "./users.js"
 import * as rights from "./rights.js"
 import * as roles from "./roles.js"
 import * as categories from "./categories.js"
+import * as categoriesAttributes from "./categoriesAttributes.js"
 
 export default {
     login,
@@ -12,4 +13,5 @@ export default {
     rights,
     roles,
     categories,
+    categoriesAttributes,
 }
