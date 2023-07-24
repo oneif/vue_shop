@@ -4,6 +4,6 @@ export function getCategoriesList(params) {
     return request({
         method: 'GET',
         url: '/categories',
-        // params: params
+        params: params
     })
 }
