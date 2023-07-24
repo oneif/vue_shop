@@ -1,5 +1,6 @@
 <!-- 可能是接口有问题 没有完全实现功能 
     只渲染了一个列表
+    7.24更新 修复了一点小bug
 -->
 <template>
     <div>
@@ -18,7 +19,7 @@
             </el-row>
 
             <!-- 商品分类区域 -->
-            <el-table :data="categoriesList" style="width: 100%;margin-top: 20px;" row-key="cat_id" border fit lazy
+            <el-table :data="categoriesList" style="width: 100%;margin-top: 20px;" row-key="cat_id" border fit
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
                 <el-table-column type="expand"></el-table-column>
                 <el-table-column type="index" label="#" width="60px">
@@ -78,8 +79,8 @@ export default {
         return {
             // 查询条件
             queryInfo: {
-                type: 0,
-                pagenum: 2,
+                type: 3,
+                pagenum: 1,
                 pagesize: 5
             },
             // 商品分类数据列表
@@ -104,9 +105,8 @@ export default {
         async getCategories() {
             await this.$api.categories.getCategoriesList(this.queryInfo).then(resp => {
                 if (resp.meta.status !== 200) return this.$message.error(resp.meat.msg)
-                console.log(resp);
-                this.categoriesList = resp.data
-                this.total = resp.data.length
+                this.categoriesList = resp.data.result
+                this.total = resp.data.total
             })
         },
         // 改变每页显示多少条
