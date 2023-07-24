@@ -21,6 +21,7 @@
             <!-- 商品分类区域 -->
             <el-table :data="categoriesList" style="width: 100%;margin-top: 20px;" row-key="cat_id" border fit
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+                <el-table-column type="expand"></el-table-column>
                 <el-table-column type="index" label="#" width="60px">
                 </el-table-column>
                 <el-table-column prop="cat_name" label="分类名称">
