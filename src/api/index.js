@@ -6,6 +6,7 @@ import * as roles from "./roles.js"
 import * as categories from "./categories.js"
 import * as categoriesAttributes from "./categoriesAttributes.js"
 import * as goods from "./goods.js"
+import * as orders from "./orders.js"
 
 export default {
     login,
@@ -15,5 +16,6 @@ export default {
     roles,
     categories,
     categoriesAttributes,
-    goods
+    goods,
+    orders
 }
