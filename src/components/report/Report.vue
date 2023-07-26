@@ -60,7 +60,6 @@ export default {
         await this.$api.reports.getReports().then(resp => {
             if (resp.meta.status !== 200) return this.$message.error(resp.meta.msg)
             this.reportData = { ...this.option, ...resp.data }
-            console.log(this.reportData);
         })
         this.$nextTick(() => {
             var myChart = echarts.init(document.getElementById('main'));
