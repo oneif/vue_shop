@@ -176,13 +176,11 @@ export default {
         handleRemove(file) {
             const filePath = file.response.data.tmp_path
             this.addGoodForm.pics = this.addGoodForm.pics.filter(item => item.pic !== filePath)
-            console.log(this.addGoodForm.pics);
         },
         // 上传成功后的回调函数
         handleSuccess(resp) {
             const picInfo = { "pic": resp.data.tmp_path }
             this.addGoodForm.pics.push(picInfo)
-            console.log(this.addGoodForm.pics);
         },
         // 添加商品
         addGood(){

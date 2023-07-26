@@ -320,7 +320,6 @@ export default {
     },
     mounted() {
         this.$bus.$emit('categoriesList', this.categoriesList)
-        console.log(this.categoriesList);
     },
 
 }

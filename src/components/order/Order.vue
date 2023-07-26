@@ -177,7 +177,6 @@ export default {
             await this.$api.orders.getOrders(this.queryInfo).then(resp => {
                 if (resp.meta.status !== 200) return this.$message.error(resp.meta.msg)
                 this.$message.success(resp.meta.msg)
-                console.log(resp.data);
                 this.orderList = resp.data.goods
                 this.total = resp.data.total
             })

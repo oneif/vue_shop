@@ -112,7 +112,6 @@ export default {
                 })
                 this.$message.success('取消角色权限成功');
             }).catch(() => {
-                console.log(role, rightId);
                 this.$message.info('已取消删除');
             });
         },

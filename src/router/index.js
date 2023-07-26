@@ -20,36 +20,37 @@ const router = new VueRouter({
     },
     {
       path: '/login',
-      component: Login
+      component: () => import('../components/Login')
     },
     {
       path: '/home',
-      component: Home,
+      component: () => import('../components/Home'),
       redirect: '/welcome',
       children: [
         {
           path: '/welcome',
-          component: Welcome
+          component: () => import('../components/Welcome')
         },
         {
           path: '/users',
-          component: Users
+          component: () => import('../components/user/Users')
         },
         {
           path: '/rights',
-          component: Rights
+          component: () => import('../components/power/Rights')
         },
         {
           path: '/roles',
-          component: Roles
+          component: () => import('../components/power/Roles')
         },
         {
           path: '/categories',
-          component: Categories
+          component: () => import('../components/goods/Categories')
         },
         {
           path: '/params',
-          component: Params
+          component: () => import('../components/goods/Params')
+        
         },
         {
           path: '/goods',
@@ -73,7 +74,7 @@ const router = new VueRouter({
 })
 
 
-// 挂载路由守卫
+// 挂载前置路由守卫
 router.beforeEach((to, from, next) => {
   if (to.path == '/login') return next()
   const tokenStr = window.sessionStorage.getItem('token')

@@ -18,7 +18,6 @@ baseAxios.interceptors.response.use(resp => {
     nProgress.done()
     return resp.data
 }, err => {
-    console.log("errrrrrrrrrrrrrrr")
     return Promise.reject(err)
 })
 export default baseAxios
