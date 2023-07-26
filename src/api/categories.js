@@ -1,9 +1,9 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 
-export function getCategoriesList(params) {
+export function getCategoriesList (params) {
     return request({
-        method: 'GET',
-        url: '/categories',
-        params: params
+        method: "GET",
+        url: "/categories",
+        params
     })
 }

@@ -53,7 +53,7 @@ const router = new VueRouter({
         },
         {
           path: '/goods',
-          component: () => import('../components/goods/Lists')
+          component: () => import('../components/goods/Lists') 
         },
         {
           path: '/goods/add',

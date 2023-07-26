@@ -1,8 +1,8 @@
-import request from "@/utils/request";
+import request from "@/utils/request"
 
-export function getMenusList() {
+export function getMenusList () {
     return request({
-        method:'GET',
-        url:'/menus'
+        method: "GET",
+        url: "/menus"
     })
 }

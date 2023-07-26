@@ -1,14 +1,14 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 
-export function getRightsList(){
+export function getRightsList () {
     return request({
-        method:'GET',
-        url:'/rights/list'
+        method: "GET",
+        url: "/rights/list"
     })
 }
-export function getRightsTree(){
+export function getRightsTree () {
     return request({
-        method:'GET',
-        url:'/rights/tree'
+        method: "GET",
+        url: "/rights/tree"
     })
 }

@@ -1,4 +1,4 @@
-import * as login from "./login.js";
+import * as login from "./login.js"
 import * as menusPermission from "./menusPermission.js"
 import * as users from "./users.js"
 import * as rights from "./rights.js"
@@ -19,5 +19,5 @@ export default {
     categoriesAttributes,
     goods,
     orders,
-    reports,
+    reports
 }
